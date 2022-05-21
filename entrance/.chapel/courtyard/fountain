@@ -13,7 +13,7 @@
 # We're happy to provide hints.
 #
 damage() {
-    cat << EOF
+    cat <<EOF
 You try to resist, but you cannot.  You dip your hand into
 the fountain,  and you feel your skin burning.  The pain
 snaps you out of your trance and you only suffer -2 HP.
@@ -26,29 +26,29 @@ EOF
 
 }
 
-CURSE=`find .. -type f -name ".curse"`
+CURSE=$(find .. -type f -name ".curse")
 
 printf "Do you want to approach the fountain? y/n  "
-read RESP
+read -r RESP
 
-if [ "$RESP" = "y" -o "$RESP" = "Y" ]; then
-    cat << EOF
+if [ "$RESP" = "y" ] || [ "$RESP" = "Y" ]; then
+    cat <<EOF
 The waters sparkle in the light of your gaze.  You feel
 drawn to it.
 
 EOF
-    if [ x$CURSE = "x" ]; then
-        cat << EOF
+    if [ "x$CURSE" = "x" ]; then
+        cat <<EOF
 But you suddenly feel strength to turn away.  You hear a
 sigh from the altar in the chapel.
 
 EOF
-   else
-       damage
-   fi
+    else
+        damage
+    fi
 else
-    if [ ! -z "$CURSE" ]; then
-	damage
+    if [ -n "$CURSE" ]; then
+        damage
     fi
 fi
 
