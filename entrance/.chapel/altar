@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # If you are reading this, you have wandered out of bounds
 # and are reading the code that drives the game.
@@ -11,7 +11,7 @@
 # When you're ready to continue playing the game, though, stick to
 # the scrolls. If you're stuck, go to Gitlab and create an issue.
 # We're happy to provide hints.
-#
+#s
 cat <<EOF
 In the corner is a decaying old altar of some forgotten god.
 
@@ -20,19 +20,19 @@ in nature.
 
 EOF
 printf "Do you want to put the trinket back on the altar? y/n  "
-read -r RESP
+read -r response
 
-if [ "$RESP" = "y" ] || [ "$RESP" = "Y" ]; then
+if [[ $response =~ ^[Yy]* ]]; then
     cat <<EOF
 You place the trinket upon the altar.  You feel a gentle
 breeze pass through the room.
 
 EOF
     touch .bless
-elseß
+else
     printf "Do you want to take the trinket for yourself? y/n  "
-    read -r RESP
-    if [ "$RESP" = "y" ] || [ "$RESP" = "Y" ]; then
+    read -r response
+    if [[ $response =~ ^[Yy]* ]]; then
         echo "Remember to add the trinket to your inventory!"
         touch .curse
     else

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # If you are reading this, you have wandered out of bounds
 # and are reading the code that drives the game.
@@ -26,18 +26,17 @@ EOF
 
 }
 
-CURSE=$(find .. -type f -name ".curse")
+curse=$(find .. -type f -name ".curse")
 
 printf "Do you want to approach the fountain? y/n  "
-read -r RESP
-
-if [ "$RESP" = "y" ] || [ "$RESP" = "Y" ]; then
+read -r response
+    if [[ $response =~ ^[Yy]* ]]; then
     cat <<EOF
 The waters sparkle in the light of your gaze.  You feel
 drawn to it.
 
 EOF
-    if [ "x$CURSE" = "x" ]; then
+    if [[ -z "$curse" ]]; then
         cat <<EOF
 But you suddenly feel strength to turn away.  You hear a
 sigh from the altar in the chapel.
@@ -47,12 +46,12 @@ EOF
         damage
     fi
 else
-    if [ -n "$CURSE" ]; then
+    if [[ -n "$curse" ]]; then
         damage
     fi
 fi
 
-[ -f ../.curse ] && rm ../.curse
+[[ -f ../.curse ]] && rm ../.curse
 #
 #
 #
