@@ -21,11 +21,11 @@ emanating from your eyes.
 
 Prefix this item to your inventory:
 
-export I=coins,\$I
+export inventory=coins,\$inventory
 
 Remember, you can check your inventory:
 
-echo \$I
+echo \$inventory
 
 EOF
 else
