@@ -22,7 +22,7 @@ random_page() {
     # current spell will pick a random number, 0 through n - 1.
     # That spell will be displayed.
     total_spells=6
-    curr_spell=$((${RANDOM} % ${total_spells}))
+    curr_spell=$((RANDOM % total_spells))
 
     case ${curr_spell} in
     0)
@@ -328,7 +328,7 @@ first spell:
 
 EOF
 
-    while [ "${response}" = 'y' -o "${response}" = 'Y' ]; do
+    while [[ $response =~ ^[Yy].* ]]; do
         random_page
 
         printf "Do you want to read another spell? y/n  "

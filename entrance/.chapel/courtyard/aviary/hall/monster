@@ -20,11 +20,11 @@ dungeon.  You find the following items on the corpse:
 ${inventory}
 
 EOF
-    curr=$(basename $PWD)
+    curr=$(basename "$PWD")
     while [ "$curr" != "entrance" ]; do
         pushd .. &>/dev/null
         dirs -c
-        curr=$(basename $PWD)
+        curr=$(basename "$PWD")
     done
     unset inventory
     unset hp
@@ -32,29 +32,29 @@ EOF
 }
 roll() {
     printf "Enter a number:  "
-    read number
+    read -r number
     alpha=$RANDOM
     omega=$RANDOM
-    a=$(echo $alpha | cut -b 1-2)
-    o=$(echo $omega | cut -b 1-2)
+    #a=$(echo $alpha | cut -b 1-2)
+    #o=$(echo $omega | cut -b 1-2)
     number=$((alpha % omega))
     monster=$RANDOM
     monster=$(echo $monster | cut -b 1-2)
     number=$(echo $number | cut -b 1-2)
-    echo "The monster rolled " $monster
-    echo "You rolled " $number
+    echo "The monster rolled " "$monster"
+    echo "You rolled " "$number"
     resolve
 }
 
 resolve() {
-    if ! grep --quiet --only-matching 'sword' <<<$inventory; then
+    if ! grep --quiet --only-matching 'sword' <<<"$inventory"; then
         cat <<EOF
 You do not have a sword!
 
 Your attacks will be less effective.
 
 EOF
-        let number=number-10
+        number=$((number-10))
     fi
     if [[ $monster -eq $number ]]; then
         cat <<EOF
@@ -127,7 +127,7 @@ run.
 
 EOF
 printf "Do you want to attack? y/n  "
-read RESP
+read -r response
 
 if [[ $response =~ ^[Yy].* ]]; then
     roll
