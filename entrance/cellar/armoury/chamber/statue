@@ -81,7 +81,7 @@ EOF
     printf "Do you have a sword? y/n  "
     read -r response
     if [[ $response =~ ^[Yy].* ]]; then
-        if grep --quiet --only-matching 'sword' <<<inventory; then
+        if grep --quiet --only-matching 'sword' <<<$inventory; then
             cat <<EOF
 You strike the statue and it breaks to pieces!
 
