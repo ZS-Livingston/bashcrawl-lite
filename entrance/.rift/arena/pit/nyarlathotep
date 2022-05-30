@@ -12,17 +12,17 @@
 # the scrolls. If you're stuck, go to Gitlab and create an issue.
 # We're happy to provide hints.
 #
+rand() {
+         local max=$((32768 / $1 * $1))
+         while (( (r=RANDOM) >= max )); do :; done
+         printf '%s'"$(( r % $1 ))";
+}
+
 roll() {
     echo "Enter a number."
     read -r number
-    alpha=$RANDOM
-    omega=$RANDOM
-    #A=$(echo $alpha | cut -b 1-2)
-    #O=$(echo $omega | cut -b 1-2)
-    number=$((alpha % omega))
-    monster=$RANDOM
-    monster=$(echo $monster | cut -b 1-2)
-    number=$(echo $number | cut -b 1-2)
+    monster=$(rand 99)
+    number=$(rand 99)
 
     monster=$((monster+3))
 
@@ -30,8 +30,8 @@ roll() {
         monster=$((monster-2))
     fi
 
-    echo "The monster rolled " $monster
-    echo "You rolled " "$number"
+    echo "The monster rolled" $monster
+    echo "You rolled" "$number"
 
     if [[ -e wizard-dark && -e wizard-light ]]; then
         number=$((number+2))
@@ -50,7 +50,7 @@ gameover() {
 You see the corpse of a slain adventurer on the floor of the
 dungeon.  You find the following items on the corpse:  
 
-${I}
+${inventory}
 
 EOF
     curr=$(basename "$PWD")
@@ -90,7 +90,7 @@ chaos!
 
 EOF
         cat <<EOF >treasure
-#!/bin/bash
+#!/usr/bin/env bash
 if ! grep  --quiet --only-matching hair <<< \$I; then
     cat << eof
 You have found a lock of the **hair** of a god!  Add it to your inventory.
@@ -103,7 +103,7 @@ fi
 EOF
         chmod +x treasure
         cat <<EOF >platinum
-#!/bin/bash
+#!/usr/bin/env bash
 if ! grep  --quiet --only-matching bracelet <<< \$I; then
     cat << eof
 You have found an enchanted *bracelet* of chaotic

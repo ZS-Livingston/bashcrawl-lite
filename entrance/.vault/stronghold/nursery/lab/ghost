@@ -30,20 +30,21 @@ EOF
     unset hp
     $SHELL
 }
+
+rand() {
+         local max=$((32768 / $1 * $1))
+         while (( (r=RANDOM) >= max )); do :; done
+         printf '%s'"$(( r % $1 ))";
+}
+
 roll() {
     printf "Enter a number:  "
     read -r number
-    alpha=$RANDOM
-    omega=$RANDOM
-    #A=$(echo $alpha | cut -b 1-2)
-    #O=$(echo $omega | cut -b 1-2)
-    number=$((alpha % omega))
-    monster=$RANDOM
-    monster=$(echo "$monster" | cut -b 1-2)
-    number=$(echo "$number" | cut -b 1-2)
+    monster=$(rand 99)
+    number=$(rand 99)
 
-    echo "The monster rolled " "$monster"
-    echo "You rolled " "$number"
+    echo "The monster rolled" "$monster"
+    echo "You rolled" "$number"
 
     if [ -e ../../../.bless ]; then
         number=$((number + 2))
@@ -52,7 +53,7 @@ roll() {
 }
 
 resolve() {
-    if [[ $monster -eq $number ]]; then
+    if ((monster == number)); then
         cat <<EOF
 You dodge an attack, but you miss your mark as a result.
 Roll again...
@@ -61,14 +62,14 @@ EOF
         roll
     fi
 
-    if [[ $monster -lt $number ]]; then
+    if ((monster < number)); then
         cat <<EOF
 A hit! A palpable hit!  You have slain the spirit of the
 evil wizard.
 
 EOF
         cat <<EOF >treasure
-#!/bin/bash
+#!/usr/bin/env bash
 if ! grep  --quiet --only-matching emerald <<< \$inventory; then
     cat <<eof
 You have found an *emerald*!  Add it to your inventory.
@@ -83,7 +84,7 @@ fi
 EOF
         chmod +x treasure
         cat <<EOF >platinum
-#!/bin/bash
+#!/usr/bin/env bash
 if ! grep  --quiet --only-matching platinum <<< \$inventory; then
     cat << eof
 You have found a sack full of *platinum* coins!  Add it to
