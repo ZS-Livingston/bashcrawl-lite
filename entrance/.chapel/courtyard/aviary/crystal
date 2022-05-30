@@ -18,11 +18,11 @@ frosty ground.
 
 You can prefix this item to your inventory:
 
-i=crystal,\$i
+inventory=crystal,\$inventory
 
 Remember, you can check your inventory:
 
-echo \$i
+echo \$inventory
 
 EOF
 #

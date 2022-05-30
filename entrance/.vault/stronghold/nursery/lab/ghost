@@ -40,7 +40,7 @@ roll() {
     number=$((alpha % omega))
     monster=$RANDOM
     monster=$(echo "$monster" | cut -b 1-2)
-    number=$(echo "$NUM" | cut -b 1-2)
+    number=$(echo "$number" | cut -b 1-2)
 
     echo "The monster rolled " "$monster"
     echo "You rolled " "$number"

@@ -28,11 +28,11 @@ As you take the rags from the floor, you find a salted fish,
 probably from the rations of the former owner of these rags.
 Prefix these items to your inventory:
 
-export i=rags,fish,\$i
+export inventory=rags,fish,\$inventory
 
 Remember, you can check your inventory"
 
-echo \$i
+echo \$inventory
 
 EOF
 

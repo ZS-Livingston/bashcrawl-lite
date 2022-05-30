@@ -19,8 +19,7 @@ the fountain,  and you feel your skin burning.  The pain
 snaps you out of your trance and you only suffer -2 HP.
 
 Remember to deduct 2 points from your HP variable:
-[[  =~ ^[Yy].* ]]
-let "HP=HP-2"
+hp=$((hp-2))
 
 EOF
 
