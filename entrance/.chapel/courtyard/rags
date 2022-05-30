@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # If you are reading this, you have wandered out of bounds
 # and are reading the code that drives the game.
@@ -12,7 +12,7 @@
 # the scrolls. If you're stuck, go to Gitlab and create an issue.
 # We're happy to provide hints.
 #
-cat << EOF
+cat <<EOF
 There's a pile of old **rags**.  They are old and worn with
 age, and probably fell off of some poor adventurer.
 
@@ -20,19 +20,19 @@ EOF
 
 printf "Do you want to take the rags? y/n  "
 
-read RESP
+read -r response
 
-if [ "$RESP" = "y" -o "$RESP" = "Y" ];then
-    cat << EOF
+if [[ $response =~ ^[Yy].* ]]; then
+    cat <<EOF
 As you take the rags from the floor, you find a salted fish,
 probably from the rations of the former owner of these rags.
 Prefix these items to your inventory:
 
-export I=rags,fish,\$I
+export i=rags,fish,\$i
 
 Remember, you can check your inventory"
 
-echo \$I
+echo \$i
 
 EOF
 

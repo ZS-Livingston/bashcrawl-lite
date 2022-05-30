@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # If you are reading this, you have wandered out of bounds
 # and are reading the code that drives the game.
@@ -12,17 +12,17 @@
 # the scrolls. If you're stuck, go to Gitlab and create an issue.
 # We're happy to provide hints.
 #
-cat << EOF
+cat <<EOF
 A white crystal, forged by the Queen of Winter, on the
 frosty ground.
 
 You can prefix this item to your inventory:
 
-I=crystal,\$I
+i=crystal,\$i
 
 Remember, you can check your inventory:
 
-echo \$I
+echo \$i
 
 EOF
 #

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # If you are reading this, you have wandered out of bounds
 # and are reading the code that drives the game.
@@ -13,48 +13,47 @@
 # We're happy to provide hints.
 #
 
-
-gameover () {
-    cat << EOF > corpse
+gameover() {
+    cat <<EOF >corpse
 You see the corpse of a slain adventurer on the floor of the
 dungeon.  You find the following items on the corpse:  
 
-${I}
+${inventory}
 
 EOF
-    curr=`basename $PWD`
+    curr=$(basename "$PWD")
     while [ "$curr" != "entrance" ]; do
-        pushd .. &> /dev/null
+        pushd .. &>/dev/null
         dirs -c
-        curr=`basename $PWD`
+        curr=$(basename "$PWD")
     done
-    unset I
-    unset HP
+    unset inventory
+    unset hp
     $SHELL
 }
 
-penguin_bite () {
-    cat << EOF
+penguin_bite() {
+    cat <<EOF
 The penguin gnaws at your Bag of Holding, hoping for a
 morsel.  Finding nothing, it takes a nip at your hand for 1
 point of damage. (let "HP=HP-1").  You may avoid this damage
 if you have a sword and wish to attack the penguin.
 
 EOF
-printf "Do you want to attack the penguin? y/n  "
-	read RESP
-	if [ "$RESP" = "y" -o "$RESP" = "Y" ]; then
-        cat << EOF
+    printf "Do you want to attack the penguin? y/n  "
+    read -r response
+    if [[ $response =~ ^[Yy].* ]]; then
+        cat <<EOF
 You attack the penguin, quickly doing away with it with one
 quick slash.  This draws the attention of the other penguins
 in the room.  They band together and rush at you. You fight
 your best.
 
 EOF
-        let HP=HP-5
-        export HP
-        if [ "$HP" -le 0 ]; then
-            cat << EOF
+        hp=$((hp-5))
+        export hp
+        if (( "$hp" < 0 )); then
+            cat <<EOF
 The mob of penguins reduces your hit points to zero.  You
 are slain by the mob.
 
@@ -62,7 +61,7 @@ EOF
             gameover
             exit 1
         else
-            cat << EOF
+            cat <<EOF
 But a mob of penguins does not tolerate oppression, and you
 soon find yourself sealed in a block of ice.  You stay,
 perfectly preserved for 128 years. When you are thawed, you
@@ -70,34 +69,34 @@ may continue your adventure.
 
 EOF
         fi
-	else
-        let HP=HP--
-        export HP
-	    echo "You keep things in perspective, and do not lash out at the penguin."
-	fi
+    else
+        hp=$((--hp))
+        export hp
+        echo "You keep things in perspective, and do not lash out at the penguin."
+    fi
 }
 
-cat << EOF
+cat <<EOF
 One of the birds finally notices your presence.  It turns
 its head sideways, seemingly beckoning for you to come
 closer.
 
 EOF
 printf "Do you get closer? y/n  "
-read RESP
+read -r response
 
-if [ "$RESP" = "y" -o "$RESP" = "Y" ]; then
-    cat << EOF
+if [[ $response =~ ^[Yy].* ]]; then
+    cat <<EOF
 You take a step forward, and the bird rushes toward you, its
 mouth open wide.  
 
 EOF
     printf "Do you happen to have a fish? y/n  "
-    read RESP
+    read -r response
 
-    if [ "$RESP" = "y" -o "$RESP" = "Y" ]; then
-        if grep  --quiet --only-matching fish <<< $I; then
-            cat << EOF
+    if [[ $response =~ ^[Yy].* ]]; then
+        if grep --quiet --only-matching fish <<<"$inventory"; then
+            cat <<EOF
 
 You toss the fish at the penguin,  which catches the fish
 mid-air and gobbles it down.
@@ -105,7 +104,7 @@ mid-air and gobbles it down.
 Don't forget to remove the fish from your inventory.  Try
 the following command:
 
-export I=\$(sed "s/fish//; s/,,/,/" <<< \$I)
+export i=\$(sed "s/fish//; s/,,/,/" <<< \$i)
 
 EOF
         else
@@ -113,11 +112,11 @@ EOF
             echo
             penguin_bite
         fi
-   else
+    else
         penguin_bite
-   fi
+    fi
 else
-    cat << EOF
+    cat <<EOF
 You back away from the penguin carefully.  It loses interest
 in you and waddles away.
 
