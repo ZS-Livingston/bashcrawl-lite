@@ -88,7 +88,7 @@ You strike the statue and it breaks to pieces!
 However, you have taken damage.
 Deduct 5 from your hp variable:
 
-let "hp=hp-5"
+hp=$((hp-5))
 
 EOF
             mv statue pieces
@@ -98,7 +98,7 @@ No you don't!  Run!
 You have taken damage from the animated statue.
 Deduct 5 from your hp variable:
 
-let "hp=hp-5"
+hp=$((hp-5))
 
 EOF
             rm treasure
@@ -110,7 +110,7 @@ Run!
 You have taken damage from the animated statue.
 Deduct 5 from your hp variable:
 
-let "hp=hp-5"
+hp=$((hp-5))
 
 EOF
     fi
