@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # If you are reading this, you have wandered out of bounds
 # and are reading the code that drives the game.
@@ -12,66 +12,66 @@
 # the scrolls. If you're stuck, go to Gitlab and create an issue.
 # We're happy to provide hints.
 #
-gameover () {
-    cat << EOF > corpse
+gameover() {
+    cat <<EOF >corpse
 You see the corpse of a slain adventurer on the floor of the
 dungeon.  You find the following items on the corpse: 
 
-${I}
+${inventory}
 
 EOF
-    curr=`basename $PWD`
+    curr=$(basename $PWD)
     while [ "$curr" != "entrance" ]; do
-        pushd .. &> /dev/null
+        pushd .. &>/dev/null
         dirs -c
-        curr=`basename $PWD`
+        curr=$(basename $PWD)
     done
-    unset I
-    unset HP
+    unset inventory
+    unset hp
     $SHELL
 }
 roll() {
     printf "Enter a number:  "
-    read NUM
-    ALPHA=$RANDOM
-    OMEGA=$RANDOM
-    A=`echo $ALPHA | cut -b 1-2`
-    O=`echo $OMEGA | cut -b 1-2`
-    let "NUM=$ALPHA % $OMEGA"
-    MONSTER=$RANDOM
-    MONSTER=`echo $MONSTER | cut -b 1-2`
-    NUM=`echo $NUM | cut -b 1-2`
-    echo "The monster rolled " $MONSTER
-    echo "You rolled " $NUM
+    read number
+    alpha=$RANDOM
+    omega=$RANDOM
+    a=$(echo $alpha | cut -b 1-2)
+    o=$(echo $omega | cut -b 1-2)
+    number=$((alpha % omega))
+    monster=$RANDOM
+    monster=$(echo $monster | cut -b 1-2)
+    number=$(echo $number | cut -b 1-2)
+    echo "The monster rolled " $monster
+    echo "You rolled " $number
     resolve
 }
 
 resolve() {
-    if ! grep  --quiet --only-matching 'sword' <<< $I; then
-        cat << EOF
+    if ! grep --quiet --only-matching 'sword' <<<$inventory; then
+        cat <<EOF
 You do not have a sword!
 
 Your attacks will be less effective.
 
 EOF
-        let NUM=NUM-10
+        let number=number-10
     fi
-    if [[ $MONSTER -eq $NUM ]]; then
-        cat << EOF
+    if [[ $monster -eq $number ]]; then
+        cat <<EOF
 You each parry one another's attacks.  Roll again...
 
 EOF
-	roll
+        roll
     fi
-    
-    if [[ $MONSTER -lt $NUM ]]; then
-        cat << EOF
+
+    if [[ $monster -lt $number ]]; then
+        cat <<EOF
 A hit! A palpable hit!  You have slain the beast.
 
 EOF
-        cat << EOF > treasure
+        cat <<EOF >treasure
 #!/bin/bash
-if ! grep  --quiet --only-matching crown <<< \$I; then
+if ! grep  --quiet --only-matching crown <<< \$inventory; then
     cat << eof
 You have found a **crown**!  Add it to your inventory.
 
@@ -85,18 +85,18 @@ EOF
         chmod +x treasure
         mv monster carcass
     else
-        cat << EOF
+        cat <<EOF
 
 Your attack is deflected off the monster's leathery flesh.
 You take 5 points damage. Deduct this from your HP.
 
-let HP=HP-5
+hp=$((hp - 5))
 
 EOF
-        let HP=HP-5
-        export HP
-        if [ "$HP" -le 0 ]; then
-            cat << EOF
+        hp=$((hp - 5))
+        export hp
+        if (("$hp" <= 0)); then
+            cat <<EOF
 You have been slain by the monster.  
 
 GAME OVER!
@@ -105,12 +105,12 @@ EOF
             gameover
             exit 1
         fi
-	roll
+        roll
     fi
 }
 
 if [ "$0" = "./carcass" ]; then
-    cat << EOF
+    cat <<EOF
 You find the carcass of a foul beast.  Nothing of interest
 lies within its remains.
 
@@ -118,7 +118,7 @@ EOF
     exit 0
 fi
 
-cat << EOF
+cat <<EOF
 A hulking three-legged beast, with a mouth full of fangs and
 a barbed tail and 8 arms, lumbers toward you.
 
@@ -129,10 +129,10 @@ EOF
 printf "Do you want to attack? y/n  "
 read RESP
 
-if [ "$RESP" = "y" -o "$RESP" = "Y" ];then
+if [[ $response =~ ^[Yy].* ]]; then
     roll
 else
-    cat << EOF
+    cat <<EOF
 You wisely turn and flee.  Quickly cd to the previous
 directory.
 

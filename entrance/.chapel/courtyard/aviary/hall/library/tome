@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # If you are reading this, you have wandered out of bounds
 # and are reading the code that drives the game.
@@ -13,20 +13,20 @@
 # We're happy to provide hints.
 #
 
-random_page () {
+random_page() {
 
     # For each spell added, increase total_spells by one (1)
     # So, the number of the spells will be 0 through n - 1.  If
-    # there are five spells in the tome, then they will be 
-    # numbered from 0 through 4.  The operation to choose the 
+    # there are five spells in the tome, then they will be
+    # numbered from 0 through 4.  The operation to choose the
     # current spell will pick a random number, 0 through n - 1.
     # That spell will be displayed.
     total_spells=6
-    curr_spell=$(( ${RANDOM} % ${total_spells} ))
+    curr_spell=$((${RANDOM} % ${total_spells}))
 
     case ${curr_spell} in
-        0)
-            cat << EOF
+    0)
+        cat <<EOF
 
 View the world in color!
 
@@ -53,8 +53,8 @@ exit the manual page.
 
 EOF
         ;;
-        1)
-            cat << EOF
+    1)
+        cat <<EOF
 
 Keep track of where you've been!
 
@@ -117,7 +117,7 @@ EOF
         ;;
     2)
         [ -f ../monster ] && monster="monster" || monster="carcass"
-        cat << EOF
+        cat <<EOF
 
 Map the entire dungeon!
 
@@ -148,7 +148,7 @@ back to the entrance and try it out!
 EOF
         ;;
     3)
-        cat << EOF
+        cat <<EOF
 
 Use emacs mode to navigate the command prompt (CLI)!
 
@@ -177,7 +177,7 @@ Now you can navigate the shell like a pro!
 EOF
         ;;
     4)
-        cat << EOF
+        cat <<EOF
 
 Use the tmux terminal multiplexer!
 
@@ -248,7 +248,7 @@ however you want.  The limit is your imagination!
 EOF
         ;;
     5)
-        cat << EOF
+        cat <<EOF
 
 Learn simple brace expansion and for loops!
 
@@ -310,7 +310,7 @@ EOF
     esac
 }
 
-cat << EOF
+cat <<EOF
 
 You see a large tome on the table, open
 to a page in the middle of the book.
@@ -318,178 +318,431 @@ to a page in the middle of the book.
 EOF
 
 printf "Do you read it? y/n  "
-read RESP
+read -r response
 
-if [ "${RESP}" = "y" -o "${RESP}" = "Y" ]; then
-    cat << EOF
+if [[ $response =~ ^[Yy].* ]]; then
+    cat <<EOF
 
 The tome appears to be a book of spells.  Here is the 
 first spell:
 
 EOF
 
-    while [ "${RESP}" = 'y' -o "${RESP}" = 'Y' ]; do
+    while [ "${response}" = 'y' -o "${response}" = 'Y' ]; do
         random_page
-    
+
         printf "Do you want to read another spell? y/n  "
-        read RESP
-    done 
+        read -r response
+    done
 fi
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 # Hmm, that didn't work.
-# Remember, when files end in a * it means they are 
+# Remember, when files end in a * it means they are
 # applications (commands). Try this:
 #
 # ./tome
-
