@@ -130,7 +130,7 @@ EOF
     else
         cat <<EOF
 Your sword swings harmlessly through the air.  You take 10
-points damage from your foe. Deduct this from your HP.  
+points damage from your foe. Deduct this from your hp.  
 
 hp=$((hp - 10))
 

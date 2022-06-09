@@ -88,7 +88,7 @@ EOF
         cat <<EOF
 
 Your attack is deflected off the monster's leathery flesh.
-You take 5 points damage. Deduct this from your HP.
+You take 5 points damage. Deduct this from your hp.
 
 hp=$((hp - 5))
 

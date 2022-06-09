@@ -36,7 +36,7 @@ penguin_bite() {
     cat <<EOF
 The penguin gnaws at your Bag of Holding, hoping for a
 morsel.  Finding nothing, it takes a nip at your hand for 1
-point of damage. (let "HP=HP-1").  You may avoid this damage
+point of damage. Type hp=$((hp-1)).  You may avoid this damage
 if you have a sword and wish to attack the penguin.
 
 EOF
